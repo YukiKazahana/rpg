@@ -6,6 +6,8 @@ import { MathUtil } from "../util/MathUtil";
 import { ProjectileEmitter } from "./ProjectileEmitter";
 import { ActorManager } from "../level/ActorManager";
 import { Events } from "../events/Events";
+import { AudioManager } from "../level/AudioManager";
+import { ResourceDefine } from "../resource/ResourceDefine";
 const { ccclass, property, requireComponent } = _decorator;
 
 @ccclass("PlayerController")
@@ -62,6 +64,7 @@ export class PlayerController extends Component {
       projectile.node.worldPosition = arrowStartPos;
       projectile.host = this.node;
     }
+    AudioManager.instance.playSfx(ResourceDefine.audio.SfxShoot);
   }
 
   set projectileCount(count: number) {

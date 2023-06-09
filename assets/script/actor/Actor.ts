@@ -65,7 +65,6 @@ export class Actor extends Component {
 
   doRotate() {
     const angle = MathUtil.signAngle(this.node.forward, this.input, Vec3.UP);
-    console.log(angle);
     tempVelocity.x = 0;
     tempVelocity.y = angle * this.angularSpeed;
     tempVelocity.z = 0;
@@ -141,7 +140,6 @@ export class Actor extends Component {
     }
     this.actorProperty.hp -= damage;
     this.node.emit(Events.OnHurt, this.actorProperty.hp / this.actorProperty.maxHp);
-    console.log(this.actorProperty.hp);
     if (this.actorProperty.hp <= 0) {
       this.onDie();
       hurtSrc.emit(Events.OnKill, this);

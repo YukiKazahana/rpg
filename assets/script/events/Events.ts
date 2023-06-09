@@ -7,6 +7,7 @@ export enum Events {
   OnKill = "onKill",
   OnPlayerUpgrade = "onPlayerUpgrade",
   OnExpGain = "onExpGain",
+  OnBgmVolumeChanged = "onBgmVolumeChanged",
 }
 
 export class CustomEventData extends Event {

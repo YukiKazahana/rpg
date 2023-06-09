@@ -1,6 +1,8 @@
 import { _decorator, BoxCollider, Collider, Component, macro, Node, randomRange, RigidBody, v3, Vec3 } from "cc";
 import { ActorManager } from "./ActorManager";
 import { Actor } from "../actor/Actor";
+import { EffectManager } from "./EffectManager";
+import { AudioManager } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("Level")
@@ -17,29 +19,37 @@ export class Level extends Component {
   maxAlive: number = 50;
 
   start() {
+    AudioManager.instance.init();
     ActorManager.instance.init(() => {
-      this.schedule(
-        () => {
-          if (ActorManager.instance.enemies.length > this.maxAlive) {
-            return;
-          }
-          for (let i = 0; i < this.count; i++) {
-            this.randomSpawn();
-          }
-        },
-        10,
-        macro.REPEAT_FOREVER,
-        1.0
-      );
-      this.schedule(
-        () => {
-          this.baseHp *= 1.2;
-        },
-        20,
-        macro.REPEAT_FOREVER,
-        1.0
-      );
+      EffectManager.instance.init(() => {
+        this.schedule(
+          () => {
+            if (ActorManager.instance.enemies.length > this.maxAlive) {
+              return;
+            }
+            for (let i = 0; i < this.count; i++) {
+              this.randomSpawn();
+            }
+          },
+          10,
+          macro.REPEAT_FOREVER,
+          1.0
+        );
+        this.schedule(
+          () => {
+            this.baseHp *= 1.2;
+          },
+          20,
+          macro.REPEAT_FOREVER,
+          1.0
+        );
+      });
     });
+  }
+
+  onDestroy(): void {
+    EffectManager.instance.destroy();
+    AudioManager.instance.destroy();
   }
 
   randomSpawn() {

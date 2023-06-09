@@ -2,6 +2,9 @@ import { _decorator, CCFloat, Collider, Component, ICollisionEvent, math, Node, 
 import { ProjectileProperty } from "./ProjectileProperty";
 import { Events } from "../events/Events";
 import { MathUtil } from "../util/MathUtil";
+import { EffectManager } from "../level/EffectManager";
+import { ResourceDefine } from "../resource/ResourceDefine";
+import { AudioManager } from "../level/AudioManager";
 const { ccclass, property, requireComponent } = _decorator;
 
 let tempPosition: Vec3 = v3();
@@ -57,5 +60,8 @@ export class Projectile extends Component {
     if (this.projectileProperty.penetration <= 0) {
       this.node.emit(Events.OnProjectileDead, this);
     }
+
+    EffectManager.instance.play(ResourceDefine.Effect.EffExplore, ev.otherCollider.node.worldPosition);
+    AudioManager.instance.playSfx(ResourceDefine.audio.SfxHit);
   }
 }

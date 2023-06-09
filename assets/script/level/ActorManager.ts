@@ -12,6 +12,8 @@ import {
 import { Actor } from "../actor/Actor";
 import { Events } from "../events/Events";
 import { StateDefine } from "../actor/StateDefine";
+import { EffectManager } from "./EffectManager";
+import { ResourceDefine } from "../resource/ResourceDefine";
 
 export class ActorManager {
   private static _instance: ActorManager | null = null;
@@ -75,6 +77,8 @@ export class ActorManager {
           this.enemyPool.free(node);
           node.active = false;
         }
+
+        EffectManager.instance.play(ResourceDefine.Effect.EffDie, node.worldPosition);
       }
     );
   }
